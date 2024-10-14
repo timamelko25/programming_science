@@ -10,7 +10,9 @@ private:
     double parse_term(const std::string& expression, size_t& pos);
     double parse_brackets(const std::string& expression, size_t& pos);
     void skip_spaces(const std::string& expression, size_t& pos);
-    double call(const std::string& funcName, double arg);
+
+    double call(const std::string& func_name, double arg);
+    double call(const std::string& func_name, double arg1, double arg2);
 
 public:
     Calculator(Loader& loader);

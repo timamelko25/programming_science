@@ -18,8 +18,12 @@ double Calculator::method(const std::string& expression) {
     return parse_expression(expression, pos);
 }
 
-double Calculator::call(const std::string& funcName, double arg) {
-    return loader.method_function(funcName, arg);
+double Calculator::call(const std::string& func_name, double arg) {
+    return loader.method_function(func_name, arg);
+}
+
+double Calculator::call(const std::string& func_name, double arg1, double arg2) {
+    return loader.method_function(func_name, arg1, arg2);
 }
 
 double Calculator::parse_expression(const std::string& expression, size_t& pos) {
@@ -50,13 +54,15 @@ double Calculator::parse_term(const std::string& expression, size_t& pos) {
     while (pos < expression.length()) {
         skip_spaces(expression, pos);
         char op = expression[pos];
-        if (op == '*' || op == '/') {
+        if (op == '*' || op == '/' || op == '^') {
             pos++;
             double factor = parse_brackets(expression, pos);
             if (op == '*') {
                 result *= factor;
-            } else {
+            } else if (op == '/') {
                 result /= factor;
+            } else if (op == '^') {
+                result = call("pow", result, factor);
             }
         } else {
             break;
@@ -90,7 +96,7 @@ double Calculator::parse_brackets(const std::string& expression, size_t& pos) {
         while (pos < expression.length() && isalpha(expression[pos])) {
             pos++;
         }
-        std::string funcName = expression.substr(start, pos - start);
+        std::string func_name = expression.substr(start, pos - start);
         if (expression[pos] == '(') {
             pos++;
             double arg = parse_expression(expression, pos);
@@ -99,7 +105,7 @@ double Calculator::parse_brackets(const std::string& expression, size_t& pos) {
             } else {
                 throw std::invalid_argument("Wrong brackets");
             }
-            result = call(funcName, arg);
+            result = call(func_name, arg);
         } else {
             throw std::invalid_argument("Invalid function call syntax");
         }

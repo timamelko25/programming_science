@@ -11,16 +11,16 @@ Loader::Loader(const std::string& directory) {
                     throw std::runtime_error("Failed to load DLL: " + entry.path().string());
                 }
                 
-                lodaded_modules.push_back(hModule);
+                loaded_modules.push_back(hModule);
                 std::cout << "DLL " << entry.path() << " loaded!" << std::endl;
 
                 std::string function_suffix = entry.path().stem().string().substr(8);
-                std::string fullfunction_name = "calc_" + function_suffix;
+                std::string full_function_name = "calc_" + function_suffix;
 
-                FARPROC func = GetProcAddress(hModule, fullfunction_name.c_str());
+                FARPROC func = GetProcAddress(hModule, full_function_name.c_str());
                 if (func) {
-                    functionMap[function_suffix] = func;
-                    std::cout << "Function " << fullfunction_name << " loaded from " << entry.path() << std::endl;
+                    function_map[function_suffix] = func;
+                    std::cout << "Function " << full_function_name << " loaded from " << entry.path() << std::endl;
                 }
             }
         }
@@ -31,18 +31,29 @@ Loader::Loader(const std::string& directory) {
 }
 
 Loader::~Loader() {
-    for (auto hModule : lodaded_modules) {
+    for (auto hModule : loaded_modules) {
         FreeLibrary(hModule);
         std::cout << "DLL free!" << std::endl;
     }
 }
 
 double Loader::method_function(const std::string& function_name, double arg) {
-    auto it = functionMap.find(function_name);
-    if (it != functionMap.end()) {
+    auto it = function_map.find(function_name);
+    if (it != function_map.end()) {
         using FunctionType = double(*)(double);
         FunctionType func = reinterpret_cast<FunctionType>(it->second);
         return func(arg);
+    }
+
+    throw std::runtime_error("Can't find function: " + function_name);
+}
+
+double Loader::method_function(const std::string& function_name, double arg1, double arg2) {
+    auto it = function_map.find(function_name);
+    if (it != function_map.end()) {
+        using FunctionType = double(*)(double, double);
+        FunctionType func = reinterpret_cast<FunctionType>(it->second);
+        return func(arg1, arg2);
     }
 
     throw std::runtime_error("Can't find function: " + function_name);
