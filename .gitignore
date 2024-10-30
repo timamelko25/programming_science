@@ -5,5 +5,7 @@
 */build/x64
 */build/CMakeCache.txt
 */build/cmake_install.cmake
+*/build/Debug
+*/build/Release
 */CmakeSettings.json
 .vscode/
