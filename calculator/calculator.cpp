@@ -13,7 +13,7 @@ void Calculator::skip_spaces(const std::string& expression, size_t& pos) {
     }
 }
 
-double Calculator::method(const std::string& expression) {
+double Calculator::parser(const std::string& expression) {
     size_t pos = 0;
     return parse_expression(expression, pos);
 }

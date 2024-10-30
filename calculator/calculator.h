@@ -19,5 +19,5 @@ public:
 
     ~Calculator();
 
-    double method(const std::string& expression);
+    double parser(const std::string& expression);
 };
