@@ -10,7 +10,7 @@ project("Engine")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>)
 
 # Добавляем исполняемый файл
-add_executable(Engine "main.cpp" "engine.h" "subject.h" "wrapper.h")
+add_executable(Engine "main.cpp" "engine.h" "engine.cpp" "subject.h" "subject.cpp" "wrapper.h" "wrapper.cpp")
 
 # Указываем путь к заголовочным файлам
 target_include_directories(Engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

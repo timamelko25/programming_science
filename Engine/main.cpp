@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Subject.h"
-#include "Engine.h"
+#include "subject.h"
+#include "engine.h"
 
 int main() {
     Subject subject;
