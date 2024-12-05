@@ -49,7 +49,5 @@ int main() {
     std::cout << engine.execute("command5", { 
         {"text", "hello world. this is a test."} 
     }) << std::endl;
-    int tmp;
-    std::cin >> tmp;
     return 0;
 }

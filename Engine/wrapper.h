@@ -2,6 +2,7 @@
 #include <vector>
 #include <functional>
 #include <string>
+#include <iostream>
 
 using InputArgs = std::vector<std::pair<std::string, std::string>>;
 using ArgsMap = std::vector<std::pair<std::string, std::string>>;
